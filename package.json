@@ -1,6 +1,6 @@
 {
   "name": "github-release-downloader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Electron desktop app for browsing GitHub releases and downloading assets.",
   "main": "dist/main/main.js",
   "scripts": {
@@ -9,7 +9,10 @@
     "build:renderer": "tsc -p tsconfig.renderer.json && node scripts/copy-static.mjs",
     "build": "npm run clean && npm run build:main && npm run build:renderer",
     "start": "npm run build && electron .",
-    "dev": "npm run build && electron ."
+    "dev": "npm run build && electron .",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win nsis"
   },
   "keywords": [
     "electron",
@@ -21,6 +24,38 @@
   "devDependencies": {
     "@types/node": "^24.6.1",
     "electron": "^37.4.0",
+    "electron-builder": "^26.0.12",
     "typescript": "^5.9.3"
+  },
+  "build": {
+    "appId": "github-release-downloader.app",
+    "productName": "GitHub Release Downloader",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "assets/app-icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/app-icon.ico",
+      "uninstallerIcon": "assets/app-icon.ico",
+      "installerHeaderIcon": "assets/app-icon.ico",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    }
   }
 }
