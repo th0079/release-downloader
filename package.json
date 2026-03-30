@@ -1,0 +1,27 @@
+{
+  "name": "github-release-downloader",
+  "version": "0.1.0",
+  "description": "Electron desktop app for browsing GitHub releases and downloading assets.",
+  "main": "dist/main/main.js",
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "tsc -p tsconfig.renderer.json && node scripts/copy-static.mjs",
+    "build": "npm run clean && npm run build:main && npm run build:renderer",
+    "start": "npm run build && electron .",
+    "dev": "npm run build && electron ."
+  },
+  "keywords": [
+    "electron",
+    "github",
+    "release",
+    "downloader"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.6.1",
+    "electron": "^37.4.0",
+    "typescript": "^5.9.3"
+  }
+}
+
